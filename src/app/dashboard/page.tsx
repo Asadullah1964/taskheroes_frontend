@@ -22,8 +22,31 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
+    const fetchCurrentUser = async () => {
+      try {
+        const res = await api.get("/auth/me");
+        if (isMounted) {
+          setUser(res.data.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          router.replace("/login");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
     fetchCurrentUser();
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [router]);
 
   const fetchCurrentUser = async () => {
     try {
@@ -36,12 +59,18 @@ export default function DashboardPage() {
     }
   };
 
+  const [loggingOut, setLoggingOut] = useState(false);
+
   const logout = async () => {
+    if (loggingOut) return;
+
     try {
+      setLoggingOut(true);
       await api.post("/auth/logout");
       router.replace("/login");
     } catch (error) {
       console.log(error);
+      setLoggingOut(false);
     }
   };
 
@@ -98,9 +127,10 @@ export default function DashboardPage() {
 
           <button
             onClick={logout}
-            className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-red-700"
+            disabled={loggingOut}
+            className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-60"
           >
-            Logout
+            {loggingOut ? "Logging out..." : "Logout"}
           </button>
         </div>
 
@@ -204,8 +234,8 @@ export default function DashboardPage() {
                   </div>
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${user.isVerified
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-amber-100 text-amber-700"
+                      ? "bg-emerald-100 text-emerald-700"
+                      : "bg-amber-100 text-amber-700"
                       }`}
                   >
                     {user.isVerified ? "Yes" : "No"}
@@ -223,8 +253,8 @@ export default function DashboardPage() {
                   </div>
                   <span
                     className={`rounded-full px-3 py-1 text-xs font-semibold ${user.isProfileCompleted
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-neutral-200 text-neutral-700"
+                      ? "bg-emerald-100 text-emerald-700"
+                      : "bg-neutral-200 text-neutral-700"
                       }`}
                   >
                     {user.isProfileCompleted ? "Complete" : "Incomplete"}
