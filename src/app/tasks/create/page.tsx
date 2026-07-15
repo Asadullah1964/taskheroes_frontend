@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from "react";
 import { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createTask } from "@/services/task";
@@ -18,7 +18,7 @@ const categories = [
   "Other",
 ];
 
-export default function CreateTaskPage() {
+function CreateTaskForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -93,6 +93,10 @@ export default function CreateTaskPage() {
       setLoading(false);
     }
   };
+
+  function CreateTaskForm() {
+   // Paste ALL your existing code here
+}
 
   return (
     <main className="min-h-screen bg-neutral-50 px-4 py-8 sm:px-6 lg:px-8">
@@ -284,5 +288,19 @@ export default function CreateTaskPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function CreateTaskPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading...
+        </div>
+      }
+    >
+      <CreateTaskForm />
+    </Suspense>
   );
 }
