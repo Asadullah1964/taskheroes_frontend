@@ -8,6 +8,7 @@ export interface WorkerProfile {
   availability: string;
   completedJobs: number;
   rating: number;
+  totalReviews?: number;
 }
 
 export interface User {
@@ -20,4 +21,13 @@ export interface User {
   location: string;
   isProfileCompleted: boolean;
   workerProfile: WorkerProfile | null;
+}
+
+export interface Worker {
+  _id: string;
+  name: string;
+  email: string;
+  profileImage?: string;
+  location?: string;
+  workerProfile?: WorkerProfile;
 }

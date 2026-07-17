@@ -32,3 +32,8 @@ export const uploadProfileImage = async (file: File) => {
 
   return response.data.data;
 };
+
+export const getWorkerProfile = async (workerId: string) => {
+  const response = await api.get(`/users/workers/${workerId}`);
+  return response.data;
+};

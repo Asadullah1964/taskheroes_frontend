@@ -268,9 +268,9 @@ function ApplicationCard({
 
           <div className="min-w-0">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <h2 className="text-xl font-semibold tracking-tight text-neutral-950">
+              <Link href={`/worker/${application.worker._id}`} className="text-xl font-semibold tracking-tight text-neutral-950 hover:text-blue-600 hover:underline">
                 {application.worker.name}
-              </h2>
+              </Link>
 
               <span className={`inline-flex w-fit rounded-full px-3 py-1 text-xs font-medium ${statusClasses}`}>
                 {application.status}
@@ -310,7 +310,7 @@ function ApplicationCard({
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
-          href={`/workers/${application.worker._id}`}
+          href={`/worker/${application.worker._id}`}
           className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
         >
           View profile
