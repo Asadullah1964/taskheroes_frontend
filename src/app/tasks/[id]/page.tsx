@@ -19,6 +19,8 @@ import api from "@/lib/api";
 import { getTaskById, deleteTask, completeTask } from "@/services/task";
 import { Task } from "@/types/task";
 import ApplyTaskForm from "@/components/tasks/ApplyTaskForm";
+import { MessageCircle } from "lucide-react";
+import { createOrGetConversation } from "@/services/conversation.service";
 
 interface CurrentUser {
   _id: string;
@@ -105,6 +107,23 @@ export default function TaskDetailsPage() {
     }
   };
 
+  const handleOpenChat = async () => {
+  if (!task) return;
+
+  try {
+    const conversation = await createOrGetConversation(task._id);
+
+    router.push(`/chat/${conversation._id}`);
+  } catch (error: any) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message ||
+        "Unable to open chat."
+    );
+  }
+};
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-neutral-50">
@@ -127,6 +146,8 @@ export default function TaskDetailsPage() {
 
   const isOwner = user?.role === "client" && user._id === task.client._id;
   const isWorker = user?.role === "worker";
+  const isAssignedWorker =
+  task.assignedWorker?._id === user?._id;
 
   return (
     <main className="min-h-screen bg-neutral-50 text-neutral-900">
@@ -304,8 +325,19 @@ export default function TaskDetailsPage() {
                         <CheckCircle2 className="h-4 w-4" />
                         Mark as completed
                       </button>
+                      
                     )}
-
+                    
+{task.status === "Assigned" &&
+  (isOwner || isAssignedWorker) && (
+    <button
+      onClick={handleOpenChat}
+      className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
+    >
+      <MessageCircle className="h-4 w-4" />
+      Open Chat
+    </button>
+)}
                     <button
                       onClick={handleDelete}
                       className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-red-600 px-4 py-3 text-sm font-medium text-white transition hover:bg-red-700"
@@ -313,9 +345,10 @@ export default function TaskDetailsPage() {
                       <Trash2 className="h-4 w-4" />
                       Delete task
                     </button>
+                    
                   </>
                 )}
-
+                
                 {!isOwner && !isWorker && (
                   <div className="rounded-2xl bg-neutral-50 p-4 text-sm text-neutral-600">
                     You can view this task, but only the owner can manage it and
