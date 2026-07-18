@@ -15,38 +15,35 @@ export default function MessageBubble({
   const isMine = message.sender._id === currentUserId;
 
   return (
-    <div
-      className={clsx(
-        "flex mb-3",
-        isMine ? "justify-end" : "justify-start"
-      )}
-    >
+    <div className={clsx("flex w-full", isMine ? "justify-end" : "justify-start")}>
       <div
         className={clsx(
-          "max-w-[75%] rounded-2xl px-4 py-2 shadow",
+          "group max-w-[85%] rounded-3xl px-4 py-3 shadow-sm ring-1 sm:max-w-[75%] md:max-w-[68%]",
           isMine
-            ? "bg-blue-600 text-white rounded-br-sm"
-            : "bg-gray-100 text-gray-900 rounded-bl-sm"
+            ? "rounded-br-md bg-neutral-900 text-white ring-neutral-900/10"
+            : "rounded-bl-md bg-white text-neutral-900 ring-neutral-200"
         )}
       >
         {message.image && (
-          <img
-            src={message.image}
-            alt="attachment"
-            className="rounded-lg mb-2 max-h-64 object-cover"
-          />
+          <div className="mb-3 overflow-hidden rounded-2xl">
+            <img
+              src={message.image}
+              alt="attachment"
+              className="max-h-72 w-full object-cover"
+            />
+          </div>
         )}
 
         {message.text && (
-          <p className="break-words whitespace-pre-wrap">
+          <p className="whitespace-pre-wrap break-words text-sm leading-6 sm:text-[15px]">
             {message.text}
           </p>
         )}
 
         <div
           className={clsx(
-            "mt-1 flex items-center gap-1 text-[11px]",
-            isMine ? "text-blue-100" : "text-gray-500"
+            "mt-2 flex items-center justify-end gap-1.5 text-[11px] font-medium",
+            isMine ? "text-white/60" : "text-neutral-500"
           )}
         >
           <span>
@@ -57,7 +54,15 @@ export default function MessageBubble({
           </span>
 
           {isMine && (
-            <span>{message.seen ? "✓✓" : "✓"}</span>
+            <span
+              className={clsx(
+                "transition",
+                message.seen ? "text-emerald-400" : "text-white/60"
+              )}
+              title={message.seen ? "Seen" : "Sent"}
+            >
+              {message.seen ? "✓✓" : "✓"}
+            </span>
           )}
         </div>
       </div>
