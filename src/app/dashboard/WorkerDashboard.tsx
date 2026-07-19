@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import WorkerAppliedTasks from "@/components/tasks/WorkerAppliedTasks";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 interface WorkerProfile {
   title: string;
@@ -56,6 +57,7 @@ export default function WorkerDashboard({ user }: WorkerDashboardProps) {
           </div>
 
           <div className="flex gap-3">
+            <NotificationBell />
             <button
               onClick={() => router.push("/tasks")}
               className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"

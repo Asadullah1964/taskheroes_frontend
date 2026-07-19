@@ -6,6 +6,7 @@ import api from "@/lib/api";
 
 import ClientDashboard from "./ClientDashboard";
 import WorkerDashboard from "./WorkerDashboard";
+import NotificationBell from "@/components/notifications/NotificationBell";
 
 interface User {
   _id: string;
@@ -126,6 +127,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-3">
+              <NotificationBell/>
               <button
                 type="button"
                 onClick={() => router.push("/profile")}
