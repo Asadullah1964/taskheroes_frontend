@@ -12,7 +12,9 @@ async function getCurrentUser(): Promise<User | null> {
 
   // Change this to your real auth cookie name
   const token = cookieStore.get("token")?.value;
-
+console.log("Home page rendering");
+  console.log(cookieStore.get("token"));
+  
   if (!token) {
     return null;
   }
