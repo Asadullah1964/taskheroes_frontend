@@ -2,23 +2,17 @@
 
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
-
 import {
-  markNotificationRead,
   markAllNotificationsRead,
+  markNotificationRead,
 } from "@/services/notification.service";
-
 import { Notification } from "@/types/notification";
 
 interface Props {
   notifications: Notification[];
-  setNotifications: Dispatch<
-    SetStateAction<Notification[]>
-  >;
+  setNotifications: Dispatch<SetStateAction<Notification[]>>;
   unreadCount: number;
-  setUnreadCount: Dispatch<
-    SetStateAction<number>
-  >;
+  setUnreadCount: Dispatch<SetStateAction<number>>;
   close: () => void;
 }
 
@@ -44,9 +38,7 @@ export default function NotificationDropdown({
         )
       );
 
-      setUnreadCount((prev) =>
-        Math.max(prev - 1, 0)
-      );
+      setUnreadCount((prev) => Math.max(prev - 1, 0));
     } catch (err) {
       console.error(err);
     }
@@ -70,105 +62,89 @@ export default function NotificationDropdown({
   };
 
   return (
-    <div
-      className="
-        absolute
-        right-0
-        mt-3
-        w-[380px]
-        rounded-2xl
-        border
-        bg-white
-        shadow-xl
-        z-50
-      "
-    >
-      {/* Header */}
-
-      <div className="flex items-center justify-between border-b p-4">
-        <h2 className="font-semibold text-lg">
-          Notifications
-        </h2>
+    <div className="w-full overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl">
+      <div className="flex items-center justify-between border-b border-neutral-200 px-4 py-4 sm:px-5">
+        <div>
+          <h2 className="text-base font-semibold text-neutral-950 sm:text-lg">
+            Notifications
+          </h2>
+          <p className="mt-1 text-xs text-neutral-500 sm:text-sm">
+            {unreadCount > 0
+              ? `${unreadCount} unread notification${unreadCount > 1 ? "s" : ""}`
+              : "You're all caught up"}
+          </p>
+        </div>
 
         {unreadCount > 0 && (
           <button
             onClick={handleReadAll}
-            className="text-sm text-blue-600 hover:underline"
+            className="shrink-0 rounded-full px-3 py-1.5 text-xs font-medium text-blue-600 transition hover:bg-blue-50 sm:text-sm"
           >
             Mark all read
           </button>
         )}
       </div>
 
-      {/* Body */}
-
-      <div className="max-h-[500px] overflow-y-auto">
+      <div className="max-h-[70vh] overflow-y-auto">
         {notifications.length === 0 ? (
-          <div className="p-8 text-center text-gray-500">
-            No notifications
+          <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-2xl">
+              🔔
+            </div>
+            <h3 className="mt-4 text-lg font-semibold text-neutral-900">
+              No notifications
+            </h3>
+            <p className="mt-2 max-w-xs text-sm leading-6 text-neutral-500">
+              New updates, task activity, and alerts will show up here.
+            </p>
           </div>
         ) : (
-          notifications.map((notification) => (
-            <Link
-              key={notification._id}
-              href={
-                notification.link || "#"
-              }
-              onClick={() => {
-                if (!notification.isRead) {
-                  handleRead(
-                    notification._id
-                  );
-                }
+          <div className="divide-y divide-neutral-100">
+            {notifications.map((notification) => (
+              <Link
+                key={notification._id}
+                href={notification.link || "#"}
+                onClick={() => {
+                  if (!notification.isRead) {
+                    handleRead(notification._id);
+                  }
+                  close();
+                }}
+                className={`flex gap-3 px-4 py-4 transition hover:bg-neutral-50 sm:px-5 ${
+                  !notification.isRead ? "bg-blue-50/60" : "bg-white"
+                }`}
+              >
+                <img
+                  src={
+                    notification.sender?.profileImage || "/default-avatar.png"
+                  }
+                  alt={notification.sender?.name || "User"}
+                  className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-neutral-200"
+                />
 
-                close();
-              }}
-              className={`
-                flex
-                gap-3
-                p-4
-                border-b
-                hover:bg-gray-50
-                transition
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-neutral-900">
+                        {notification.title}
+                      </p>
+                      <p className="mt-1 text-sm leading-6 text-neutral-600">
+                        {notification.message}
+                      </p>
+                    </div>
 
-                ${
-                  !notification.isRead
-                    ? "bg-blue-50"
-                    : ""
-                }
-              `}
-            >
-              <img
-                src={
-                  notification.sender
-                    ?.profileImage ||
-                  "/default-avatar.png"
-                }
-                alt=""
-                className="w-10 h-10 rounded-full object-cover"
-              />
+                    {!notification.isRead && (
+                      <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-blue-600" />
+                    )}
+                  </div>
 
-              <div className="flex-1">
-                <p className="font-medium text-sm">
-                  {notification.title}
-                </p>
-
-                <p className="text-sm text-gray-600 mt-1">
-                  {notification.message}
-                </p>
-
-                <p className="text-xs text-gray-400 mt-2">
-                  {new Date(
-                    notification.createdAt
-                  ).toLocaleString()}
-                </p>
-              </div>
-
-              {!notification.isRead && (
-                <div className="w-2 h-2 rounded-full bg-blue-600 mt-2" />
-              )}
-            </Link>
-          ))
+                  <p className="mt-2 text-xs text-neutral-400">
+                    {new Date(notification.createdAt).toLocaleString()}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
         )}
       </div>
     </div>

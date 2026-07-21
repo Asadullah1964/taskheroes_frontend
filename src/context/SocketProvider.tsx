@@ -48,21 +48,21 @@ export function SocketProvider({
       try {
         const user = await getCurrentUser();
 
-        if (user?._id) {
-          socketInstance.emit(
-            "register",
-            user._id
-          );
-
-          console.log(
-            "✅ User Registered:",
-            user._id
-          );
+        // User is not logged in
+        if (!user) {
+          return;
         }
-      } catch (err) {
+
+        socketInstance.emit("register", user._id);
+
+        console.log(
+          "✅ User Registered:",
+          user._id
+        );
+      } catch (error) {
         console.error(
-          "Socket register failed",
-          err
+          "Socket register failed:",
+          error
         );
       }
     });
@@ -71,10 +71,10 @@ export function SocketProvider({
       console.log("❌ Socket Disconnected");
     });
 
-    socketInstance.on("connect_error", (err) => {
+    socketInstance.on("connect_error", (error) => {
       console.error(
         "Socket Connection Error:",
-        err.message
+        error.message
       );
     });
 

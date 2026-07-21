@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import ClientDashboard from "./ClientDashboard";
 import WorkerDashboard from "./WorkerDashboard";
 import NotificationBell from "@/components/notifications/NotificationBell";
+import Navbar from "@/components/navbar/Navbar";
 
 interface User {
   _id: string;
@@ -60,6 +61,7 @@ export default function DashboardPage() {
         className="min-h-screen bg-neutral-50 px-4 py-10 sm:px-6 lg:px-8"
         aria-busy="true"
       >
+
         <div className="mx-auto max-w-7xl animate-pulse space-y-6">
           <div className="h-10 w-64 rounded-xl bg-neutral-200" />
           <div className="h-28 rounded-3xl bg-neutral-200" />
@@ -76,6 +78,13 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-neutral-50 text-neutral-900">
+      <Navbar
+  user={{
+    name: user.name,
+    profileImage: user.profileImage,
+  }}
+  onLogout={logout}
+/>
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-8 rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">

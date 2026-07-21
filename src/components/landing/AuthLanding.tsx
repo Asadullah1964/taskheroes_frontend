@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BrowseTasks from "../tasks/BrowseTask";
+import Navbar from "../navbar/Navbar";
 
 type AuthLandingProps = {
   user?: {
