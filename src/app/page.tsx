@@ -1,35 +1,50 @@
-import { cookies } from "next/headers";
+"use client";
+
+import { useEffect, useState } from "react";
+
 import GuestLanding from "@/components/landing/GuestLanding";
 import AuthLanding from "@/components/landing/AuthLanding";
 
+import { getCurrentUser } from "@/services/auth.service";
+
 type User = {
-  name?: string;
-  role?: "client" | "worker" | "admin";
+  _id: string;
+  name: string;
+  email: string;
+  role: "client" | "worker" | "admin";
+  profileImage?: string;
 };
 
-async function getCurrentUser(): Promise<User | null> {
-  const cookieStore = await cookies();
+export default function HomePage() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Change this to your real auth cookie name
-  const token = cookieStore.get("token")?.value;
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        setUser(currentUser);
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!token) {
-    return null;
+    fetchUser();
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading...</p>
+      </main>
+    );
   }
 
-  // Replace this mock with real session decode / API validation
-  return {
-    name: "Asadullah",
-    role: "client",
-  };
-}
-
-export default async function HomePage() {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return <GuestLanding />;
-  }
-
-  return <AuthLanding user={user} />;
+  return user ? (
+    <AuthLanding user={user} />
+  ) : (
+    <GuestLanding />
+  );
 }
