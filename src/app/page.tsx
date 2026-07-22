@@ -7,6 +7,7 @@ import AuthLanding from "@/components/landing/AuthLanding";
 
 import { getCurrentUser } from "@/services/auth.service";
 
+
 type User = {
   _id: string;
   name: string;

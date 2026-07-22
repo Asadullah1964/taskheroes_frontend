@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
+
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { SocketProvider } from "@/context/SocketProvider";
-
+import LayoutWrapper from "@/components/layout/LayoutWrapper";
 
 export const metadata: Metadata = {
   title: "TaskHeroes",
@@ -11,9 +12,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
@@ -21,8 +22,10 @@ export default function RootLayout({
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
         >
           <SocketProvider>
-          {children}
-        </SocketProvider>
+            <LayoutWrapper>
+              {children}
+            </LayoutWrapper>
+          </SocketProvider>
         </GoogleOAuthProvider>
       </body>
     </html>

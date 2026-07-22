@@ -78,13 +78,7 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-neutral-50 text-neutral-900">
-      <Navbar
-  user={{
-    name: user.name,
-    profileImage: user.profileImage,
-  }}
-  onLogout={logout}
-/>
+      <Navbar/>
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <header className="mb-8 rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">

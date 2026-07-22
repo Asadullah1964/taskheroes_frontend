@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   ChevronDown,
   LayoutDashboard,
@@ -12,23 +13,29 @@ import {
   User,
   X,
 } from "lucide-react";
+
 import NotificationBell from "@/components/notifications/NotificationBell";
+import ChatIcon from "@/components/chat/ChatIcon";
+import { getCurrentUser } from "@/services/auth.service";
+import api from "@/lib/api";
 
 interface NavbarUser {
   name: string;
+  email?: string;
+  role?: string;
   profileImage?: string;
 }
 
-interface NavbarProps {
-  user: NavbarUser | null;
-  onLogout?: () => void;
-}
+export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const profileRef = useRef<HTMLDivElement>(null);
 
-export default function Navbar({ user, onLogout }: NavbarProps) {
+  const [user, setUser] = useState<NavbarUser | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loggingOut, setLoggingOut] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-
-  const profileRef = useRef<HTMLDivElement>(null);
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -41,6 +48,22 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Edit Profile", href: "/profile/edit", icon: Pencil },
   ];
+
+  const loadUser = useCallback(async () => {
+    try {
+      const currentUser = await getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.log(error);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadUser();
+  }, [loadUser, pathname]);
 
   useEffect(() => {
     const handleOutside = (event: MouseEvent) => {
@@ -77,6 +100,69 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
     };
   }, [mobileOpen]);
 
+  const logout = async () => {
+    if (loggingOut) return;
+
+    try {
+      setLoggingOut(true);
+      await api.post("/auth/logout");
+      setUser(null);
+      setProfileOpen(false);
+      setMobileOpen(false);
+      router.refresh();
+      router.replace("/login");
+    } catch (error) {
+      console.log(error);
+      setLoggingOut(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <header className="fixed left-0 top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+          <p className="text-sm text-neutral-500">Loading...</p>
+        </div>
+      </header>
+    );
+  }
+
+  if (!user) {
+    return (
+      <header className="fixed left-0 top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded-2xl px-2 py-1 transition hover:bg-neutral-100"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-neutral-900 text-sm font-bold text-white">
+              TH
+            </div>
+            <span className="hidden text-sm font-semibold text-neutral-950 sm:block">
+              TaskHeroes
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-3">
+            {/* <Link
+              href="/tasks"
+              className="hidden rounded-full px-4 py-2 text-sm font-medium text-neutral-600 transition hover:bg-neutral-100 hover:text-neutral-950 sm:inline-flex"
+            >
+              Browse Tasks
+            </Link> */}
+
+            <Link
+              href="/login"
+              className="rounded-full bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-neutral-800"
+            >
+              Login
+            </Link>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header className="fixed left-0 top-0 z-50 w-full border-b border-neutral-200 bg-white/90 backdrop-blur">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -108,13 +194,15 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
           <div className="hidden items-center justify-end gap-2 lg:flex">
             <NotificationBell />
 
-            <Link
+            {/* <Link
               href="/chat"
               aria-label="Messages"
               className="inline-flex h-11 w-11 items-center justify-center rounded-full text-neutral-700 transition hover:bg-neutral-100"
             >
               <MessageSquare className="h-5 w-5" />
-            </Link>
+              <ChatIcon />
+            </Link> */}
+            <ChatIcon />
 
             <div ref={profileRef} className="relative">
               <button
@@ -122,7 +210,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                 onClick={() => setProfileOpen((prev) => !prev)}
                 className="flex items-center gap-3 rounded-full border border-neutral-200 bg-white px-2 py-1.5 pr-3 transition hover:bg-neutral-50"
               >
-                {user?.profileImage ? (
+                {user.profileImage ? (
                   <img
                     src={user.profileImage}
                     alt={user.name}
@@ -130,7 +218,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                   />
                 ) : (
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-sm font-semibold text-white">
-                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                    {user.name?.charAt(0)?.toUpperCase() || "U"}
                   </div>
                 )}
 
@@ -145,11 +233,17 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                 <div className="absolute right-0 mt-3 w-64 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl">
                   <div className="border-b border-neutral-100 px-4 py-4">
                     <p className="truncate text-sm font-semibold text-neutral-900">
-                      {user?.name || "User"}
+                      {user.name || "User"}
                     </p>
-                    <p className="mt-1 text-xs text-neutral-500">
-                      Manage your account
-                    </p>
+                    {user.email ? (
+                      <p className="mt-1 truncate text-xs text-neutral-500">
+                        {user.email}
+                      </p>
+                    ) : (
+                      <p className="mt-1 text-xs text-neutral-500">
+                        Manage your account
+                      </p>
+                    )}
                   </div>
 
                   <div className="p-2">
@@ -172,13 +266,13 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                     <button
                       type="button"
                       onClick={() => {
-                        setProfileOpen(false);
-                        onLogout?.();
+                        logout();
                       }}
-                      className="mt-1 flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+                      disabled={loggingOut}
+                      className="mt-1 flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       <LogOut className="h-4 w-4" />
-                      Logout
+                      {loggingOut ? "Logging out..." : "Logout"}
                     </button>
                   </div>
                 </div>
@@ -190,11 +284,12 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
             <NotificationBell />
 
             <Link
-              href="/messages"
+              href="/chat"
               aria-label="Messages"
               className="inline-flex h-10 w-10 items-center justify-center rounded-full text-neutral-700 transition hover:bg-neutral-100"
             >
-              <MessageSquare className="h-5 w-5" />
+              {/* <MessageSquare className="h-5 w-5" /> */}
+              <ChatIcon />
             </Link>
 
             <button
@@ -224,7 +319,7 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
         <div className="flex h-full flex-col overflow-hidden border-l border-neutral-200 bg-white">
           <div className="flex items-center justify-between border-b border-neutral-200 px-5 py-4">
             <div className="flex items-center gap-3">
-              {user?.profileImage ? (
+              {user.profileImage ? (
                 <img
                   src={user.profileImage}
                   alt={user.name}
@@ -232,15 +327,17 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                 />
               ) : (
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-900 text-sm font-semibold text-white">
-                  {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                  {user.name?.charAt(0)?.toUpperCase() || "U"}
                 </div>
               )}
 
-              <div>
-                <p className="text-sm font-semibold text-neutral-900">
-                  {user?.name || "User"}
+              <div className="min-w-0">
+                <p className="truncate text-sm font-semibold text-neutral-900">
+                  {user.name || "User"}
                 </p>
-                <p className="text-xs text-neutral-500">Menu</p>
+                <p className="truncate text-xs text-neutral-500">
+                  {user.email || "Menu"}
+                </p>
               </div>
             </div>
 
@@ -298,12 +395,13 @@ export default function Navbar({ user, onLogout }: NavbarProps) {
                   type="button"
                   onClick={() => {
                     setMobileOpen(false);
-                    onLogout?.();
+                    logout();
                   }}
-                  className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+                  disabled={loggingOut}
+                  className="flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-medium text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <LogOut className="h-4 w-4" />
-                  Logout
+                  {loggingOut ? "Logging out..." : "Logout"}
                 </button>
               </div>
             </div>

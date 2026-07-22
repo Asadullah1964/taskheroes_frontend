@@ -11,10 +11,23 @@ interface User {
 
 export default function ChatPage() {
   const [user, setUser] = useState<User | null>(null);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   useEffect(() => {
     loadUser();
   }, []);
+
+  useEffect(() => {
+    if (mobileSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileSidebarOpen]);
 
   const loadUser = async () => {
     try {
@@ -34,13 +47,38 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex h-dvh w-full overflow-hidden bg-[#0f1115]">
-      <div className="hidden w-[360px] shrink-0 border-r border-white/5 bg-[#151821] md:block">
-        <ChatSidebar currentUserId={user._id} />
+    <div className="relative flex h-dvh w-full overflow-hidden bg-[#0f1115]">
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/55 md:hidden"
+          onClick={() => setMobileSidebarOpen(false)}
+        />
+      )}
+
+      <div
+        className={`
+          fixed inset-y-0 left-0 z-50 w-[88vw] max-w-sm transform border-r border-white/5 bg-[#151821] transition-transform duration-300
+          ${mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"}
+          md:static md:z-auto md:block md:w-[360px] md:max-w-none md:translate-x-0
+        `}
+      >
+        <ChatSidebar
+          currentUserId={user._id}
+          mobileOpen={mobileSidebarOpen}
+          onCloseMobile={() => setMobileSidebarOpen(false)}
+        />
       </div>
 
       <div className="flex min-w-0 flex-1 items-center justify-center px-6">
         <div className="max-w-sm text-center">
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(true)}
+            className="mb-6 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10 md:hidden"
+          >
+            Open chats
+          </button>
+
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10">
             <svg
               viewBox="0 0 24 24"
