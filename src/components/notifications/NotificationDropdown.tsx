@@ -61,6 +61,8 @@ export default function NotificationDropdown({
     }
   };
 
+  const visibleNotifications = notifications.slice(0, 3);
+
   return (
     <div className="w-full overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl">
       <div className="flex items-center justify-between border-b border-neutral-200 px-4 py-4 sm:px-5">
@@ -86,7 +88,7 @@ export default function NotificationDropdown({
       </div>
 
       <div className="max-h-[70vh] overflow-y-auto">
-        {notifications.length === 0 ? (
+        {visibleNotifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-6 py-12 text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-100 text-2xl">
               🔔
@@ -100,7 +102,7 @@ export default function NotificationDropdown({
           </div>
         ) : (
           <div className="divide-y divide-neutral-100">
-            {notifications.map((notification) => (
+            {visibleNotifications.map((notification) => (
               <Link
                 key={notification._id}
                 href={notification.link || "#"}

@@ -1,5 +1,8 @@
 "use client";
 
+import api from "@/lib/api";
+import { subscribeUserToPush } from "@/services/pushNotification.service";
+
 import {
   createContext,
   useContext,
@@ -59,6 +62,19 @@ export function SocketProvider({
           "✅ User Registered:",
           user._id
         );
+
+        try {
+  const subscription = await subscribeUserToPush();
+
+  if (subscription) {
+    await api.post("/push/subscribe", subscription);
+
+    console.log("✅ Push subscription saved");
+  }
+} catch (err) {
+  console.error("Push subscription failed:", err);
+}
+
       } catch (error) {
         console.error(
           "Socket register failed:",
