@@ -26,26 +26,26 @@ export default function TasksPage() {
   };
 
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <main className="min-h-screen bg-neutral-50 dark:bg-neutral-950">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8 dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
-              <span className="inline-flex rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700">
+              <span className="inline-flex rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
                 Task marketplace
               </span>
 
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100 sm:text-4xl">
                 Browse available tasks
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-neutral-500 sm:text-base">
+              <p className="mt-3 text-sm leading-6 text-neutral-500 dark:text-neutral-400 sm:text-base">
                 Explore posted tasks, compare opportunities, and open the ones
                 that match your skills and location.
               </p>
             </div>
 
-            <div className="rounded-2xl bg-neutral-50 px-4 py-3 text-sm text-neutral-600 ring-1 ring-neutral-200">
+            <div className="rounded-2xl bg-neutral-50 px-4 py-3 text-sm text-neutral-600 ring-1 ring-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:ring-neutral-700">
               {loading ? "Loading tasks..." : `Total tasks: ${tasks.length}`}
             </div>
           </div>
@@ -59,16 +59,16 @@ export default function TasksPage() {
               ))}
             </div>
           ) : tasks.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-10 text-center shadow-sm">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-neutral-100 text-2xl">
+            <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-10 text-center shadow-sm dark:border-neutral-700 dark:bg-neutral-900 dark:shadow-black/20">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-neutral-100 text-2xl dark:bg-neutral-800">
                 🧾
               </div>
 
-              <h2 className="mt-5 text-2xl font-semibold tracking-tight text-neutral-950">
+              <h2 className="mt-5 text-2xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
                 No tasks available
               </h2>
 
-              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-neutral-500">
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-neutral-500 dark:text-neutral-400">
                 There are no tasks to show right now. Check back later or post a
                 new task if you are looking for help.
               </p>
@@ -76,14 +76,14 @@ export default function TasksPage() {
               <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   href="/"
-                  className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+                  className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
                 >
                   Go home
                 </Link>
 
                 <Link
                   href="/tasks/create"
-                  className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+                  className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
                 >
                   Create task
                 </Link>
@@ -104,28 +104,28 @@ export default function TasksPage() {
 
 function TaskCardSkeleton() {
   return (
-    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm">
+    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
       <div className="animate-pulse">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <div className="h-6 w-3/4 rounded bg-neutral-200" />
-            <div className="mt-3 h-4 w-1/3 rounded bg-neutral-100" />
+            <div className="h-6 w-3/4 rounded bg-neutral-200 dark:bg-neutral-700" />
+            <div className="mt-3 h-4 w-1/3 rounded bg-neutral-100 dark:bg-neutral-800" />
           </div>
-          <div className="h-8 w-20 rounded-full bg-neutral-100" />
+          <div className="h-8 w-20 rounded-full bg-neutral-100 dark:bg-neutral-800" />
         </div>
 
         <div className="mt-5 space-y-2">
-          <div className="h-4 w-full rounded bg-neutral-100" />
-          <div className="h-4 w-5/6 rounded bg-neutral-100" />
-          <div className="h-4 w-2/3 rounded bg-neutral-100" />
+          <div className="h-4 w-full rounded bg-neutral-100 dark:bg-neutral-800" />
+          <div className="h-4 w-5/6 rounded bg-neutral-100 dark:bg-neutral-800" />
+          <div className="h-4 w-2/3 rounded bg-neutral-100 dark:bg-neutral-800" />
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3">
-          <div className="h-16 rounded-2xl bg-neutral-100" />
-          <div className="h-16 rounded-2xl bg-neutral-100" />
+          <div className="h-16 rounded-2xl bg-neutral-100 dark:bg-neutral-800" />
+          <div className="h-16 rounded-2xl bg-neutral-100 dark:bg-neutral-800" />
         </div>
 
-        <div className="mt-6 h-11 w-full rounded-2xl bg-neutral-200" />
+        <div className="mt-6 h-11 w-full rounded-2xl bg-neutral-200 dark:bg-neutral-700" />
       </div>
     </div>
   );

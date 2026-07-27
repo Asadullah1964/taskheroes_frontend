@@ -39,7 +39,7 @@ export default function MyTasksSection({ filter }: MyTasksSectionProps) {
 
   if (loading) {
     return (
-      <div className="py-16 text-center text-base font-medium text-neutral-500">
+      <div className="py-16 text-center text-base font-medium text-neutral-500 dark:text-neutral-400">
         Loading tasks...
       </div>
     );
@@ -47,11 +47,11 @@ export default function MyTasksSection({ filter }: MyTasksSectionProps) {
 
   if (filteredTasks.length === 0) {
     return (
-      <div className="rounded-3xl border border-dashed border-neutral-300 bg-neutral-50 p-10 text-center">
-        <h3 className="text-xl font-semibold text-neutral-900">
+      <div className="rounded-3xl border border-dashed border-neutral-300 bg-neutral-50 p-10 text-center dark:border-neutral-700 dark:bg-neutral-950">
+        <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
           No tasks found
         </h3>
-        <p className="mt-2 text-sm text-neutral-500">
+        <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
           {filter === "all"
             ? "You haven't created any tasks yet."
             : `No ${filter.toLowerCase()} tasks available right now.`}
@@ -59,7 +59,7 @@ export default function MyTasksSection({ filter }: MyTasksSectionProps) {
 
         <Link
           href="/tasks/create"
-          className="mt-5 inline-flex rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+          className="mt-5 inline-flex rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
         >
           + New Task
         </Link>
@@ -72,30 +72,33 @@ export default function MyTasksSection({ filter }: MyTasksSectionProps) {
       {filteredTasks.map((task) => (
         <div
           key={task._id}
-          className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md"
+          className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20 dark:hover:shadow-black/30"
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <h3 className="text-xl font-semibold tracking-tight text-neutral-950">
+              <h3 className="text-xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
                 {task.title}
               </h3>
-              <p className="mt-1 text-sm text-neutral-500">
+              <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
                 {task.category}
               </p>
             </div>
 
-            <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700">
+            <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
               {task.status}
             </span>
           </div>
 
-          <p className="mt-4 line-clamp-2 text-sm leading-6 text-neutral-600">
+          <p className="mt-4 line-clamp-2 text-sm leading-6 text-neutral-600 dark:text-neutral-300">
             {task.description}
           </p>
 
           <div className="mt-5 grid grid-cols-2 gap-4">
             <TaskMeta label="Budget" value={`₹ ${task.budget}`} />
-            <TaskMeta label="Applications" value={`${task.applications?.length || 0}`} />
+            <TaskMeta
+              label="Applications"
+              value={`${task.applications?.length || 0}`}
+            />
             <TaskMeta
               label="Deadline"
               value={
@@ -110,50 +113,51 @@ export default function MyTasksSection({ filter }: MyTasksSectionProps) {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href={`/tasks/${task._id}`}
-              className="rounded-2xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800"
+              className="rounded-2xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
               View
             </Link>
 
             <Link
               href={`/tasks/${task._id}/edit`}
-              className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+              className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
             >
               Edit
             </Link>
+
             <Link
-  href={`tasks/${task._id}/applications`}
-  className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
->
-  Applications ({task.applications?.length || 0})
-</Link>
-{task.status === "Completed" &&
-  (task.hasReviewed ? (
-    <span className="rounded-2xl bg-green-100 px-4 py-2.5 text-sm font-medium text-green-700">
-      ✓ Reviewed
-    </span>
-  ) : (
-    <button
-      onClick={() => setSelectedTask(task)}
-      className="rounded-2xl bg-yellow-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-yellow-600"
-    >
-      ⭐ Leave Review
-    </button>
-  ))}
+              href={`tasks/${task._id}/applications`}
+              className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
+            >
+              Applications ({task.applications?.length || 0})
+            </Link>
+
+            {task.status === "Completed" &&
+              (task.hasReviewed ? (
+                <span className="rounded-2xl bg-green-100 px-4 py-2.5 text-sm font-medium text-green-700 dark:bg-green-500/15 dark:text-green-400">
+                  ✓ Reviewed
+                </span>
+              ) : (
+                <button
+                  onClick={() => setSelectedTask(task)}
+                  className="rounded-2xl bg-yellow-500 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-yellow-600 dark:bg-yellow-400 dark:text-neutral-900 dark:hover:bg-yellow-300"
+                >
+                  ⭐ Leave Review
+                </button>
+              ))}
           </div>
         </div>
       ))}
+
       {selectedTask && (
-  <ReviewModal
-    taskId={selectedTask._id}
-    onClose={() => setSelectedTask(null)}
-    onSuccess={fetchTasks}
-  />
-)}
+        <ReviewModal
+          taskId={selectedTask._id}
+          onClose={() => setSelectedTask(null)}
+          onSuccess={fetchTasks}
+        />
+      )}
     </div>
   );
-
-  
 }
 
 function TaskMeta({
@@ -164,12 +168,13 @@ function TaskMeta({
   value: string;
 }) {
   return (
-    <div className="rounded-2xl bg-neutral-50 px-4 py-3">
-      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+    <div className="rounded-2xl bg-neutral-50 px-4 py-3 dark:bg-neutral-800">
+      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
         {label}
       </p>
-      <p className="mt-2 text-sm font-semibold text-neutral-900">{value}</p>
+      <p className="mt-2 text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+        {value}
+      </p>
     </div>
   );
 }
-

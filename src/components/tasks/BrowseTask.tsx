@@ -30,7 +30,7 @@ export default function BrowseTasks() {
         {Array.from({ length: 6 }).map((_, index) => (
           <div
             key={index}
-            className="h-56 animate-pulse rounded-2xl border border-neutral-200 bg-white"
+            className="h-56 animate-pulse rounded-2xl border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-900"
           />
         ))}
       </div>
@@ -39,11 +39,11 @@ export default function BrowseTasks() {
 
   if (tasks.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-neutral-300 bg-white p-10 text-center">
-        <h3 className="text-lg font-semibold text-neutral-900">
+      <div className="rounded-2xl border border-dashed border-neutral-300 bg-white p-10 text-center dark:border-neutral-700 dark:bg-neutral-900">
+        <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
           No tasks available
         </h3>
-        <p className="mt-2 text-sm text-neutral-600">
+        <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
           New tasks will appear here when clients post them.
         </p>
       </div>

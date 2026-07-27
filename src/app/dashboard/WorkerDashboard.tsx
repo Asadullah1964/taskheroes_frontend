@@ -45,13 +45,13 @@ export default function WorkerDashboard({ user }: WorkerDashboardProps) {
 
   return (
     <div className="grid gap-6">
-      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
+      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8 dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight text-neutral-950">
+            <h1 className="text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
               Worker dashboard
             </h1>
-            <p className="mt-2 text-sm leading-6 text-neutral-500">
+            <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
               Track your applications and keep an eye on your profile performance.
             </p>
           </div>
@@ -60,13 +60,13 @@ export default function WorkerDashboard({ user }: WorkerDashboardProps) {
             {/* <NotificationBell /> */}
             <button
               onClick={() => router.push("/tasks")}
-              className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+              className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
               Browse tasks
             </button>
             <button
               onClick={() => router.push("/profile")}
-              className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+              className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
             >
               Edit profile
             </button>
@@ -81,13 +81,13 @@ export default function WorkerDashboard({ user }: WorkerDashboardProps) {
         <SmallStat title="Status" value={availability} />
       </section>
 
-      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h2 className="text-xl font-semibold tracking-tight text-neutral-950">
+            <h2 className="text-xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
               My applications
             </h2>
-            <p className="mt-2 text-sm leading-6 text-neutral-500">
+            <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
               View your applied tasks, accepted work, and completed jobs.
             </p>
           </div>
@@ -109,9 +109,9 @@ function SmallStat({
   value: string;
 }) {
   return (
-    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm">
-      <p className="text-sm text-neutral-500">{title}</p>
-      <p className="mt-3 text-2xl font-semibold tracking-tight text-neutral-950">
+    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+      <p className="text-sm text-neutral-500 dark:text-neutral-400">{title}</p>
+      <p className="mt-3 text-2xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
         {value}
       </p>
     </div>

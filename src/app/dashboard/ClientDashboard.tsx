@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import MyTasksSection from "@/components/tasks/MyTasks";
-// import MyTasksSection from "..//MyTasksSection";
 
 interface DashboardUser {
   _id: string;
@@ -31,36 +30,36 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
 
   return (
     <div className="grid gap-6">
-      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
+      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8 dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight text-neutral-950">
+            <h1 className="text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
               Client dashboard
             </h1>
-            <p className="mt-2 text-sm leading-6 text-neutral-500">
+            <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
               Manage the tasks you created and track their progress.
             </p>
           </div>
 
           <button
             onClick={() => router.push("/tasks/create")}
-            className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+            className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
           >
             + Create task
           </button>
         </div>
       </section>
 
-      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-wrap gap-2 border-b border-neutral-200 pb-5">
+      <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+        <div className="flex flex-wrap gap-2 border-b border-neutral-200 pb-5 dark:border-neutral-800">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`rounded-full px-4 py-2 text-sm font-medium transition ${
                 activeTab === tab
-                  ? "bg-neutral-900 text-white"
-                  : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
+                  ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                  : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
               }`}
             >
               {tab === "all" ? "All Tasks" : tab}
@@ -70,7 +69,6 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
 
         <div className="mt-6">
           <MyTasksSection filter={activeTab} />
-          
         </div>
       </section>
     </div>

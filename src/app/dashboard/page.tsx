@@ -58,16 +58,15 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <main
-        className="min-h-screen bg-neutral-50 px-4 py-10 sm:px-6 lg:px-8"
+        className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-900 sm:px-6 lg:px-8 dark:bg-neutral-950 dark:text-neutral-100"
         aria-busy="true"
       >
-
         <div className="mx-auto max-w-7xl animate-pulse space-y-6">
-          <div className="h-10 w-64 rounded-xl bg-neutral-200" />
-          <div className="h-28 rounded-3xl bg-neutral-200" />
+          <div className="h-10 w-64 rounded-xl bg-neutral-200 dark:bg-neutral-800" />
+          <div className="h-28 rounded-3xl bg-neutral-200 dark:bg-neutral-800" />
           <div className="grid gap-6 lg:grid-cols-3">
-            <div className="h-96 rounded-3xl bg-neutral-200 lg:col-span-2" />
-            <div className="h-96 rounded-3xl bg-neutral-200" />
+            <div className="h-96 rounded-3xl bg-neutral-200 lg:col-span-2 dark:bg-neutral-800" />
+            <div className="h-96 rounded-3xl bg-neutral-200 dark:bg-neutral-800" />
           </div>
         </div>
       </main>
@@ -77,10 +76,10 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <main className="min-h-screen bg-neutral-50 text-neutral-900">
-      <Navbar/>
+    <main className="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+      <Navbar />
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <header className="mb-8 rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6">
+        <header className="mb-8 rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6 dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
           <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
               {user.profileImage ? (
@@ -90,36 +89,40 @@ export default function DashboardPage() {
                   className="h-16 w-16 rounded-2xl object-cover sm:h-20 sm:w-20"
                 />
               ) : (
-                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-neutral-900 text-xl font-semibold text-white sm:h-20 sm:w-20 sm:text-2xl">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-neutral-900 text-xl font-semibold text-white sm:h-20 sm:w-20 sm:text-2xl dark:bg-white dark:text-neutral-900">
                   {user.name.charAt(0).toUpperCase()}
                 </div>
               )}
 
               <div>
-                <p className="text-sm text-neutral-500">Dashboard</p>
+                <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                  Dashboard
+                </p>
                 <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
                   Welcome, {user.name}
                 </h1>
 
                 <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-neutral-900 px-3 py-1 text-xs font-medium capitalize text-white">
+                  <span className="rounded-full bg-neutral-900 px-3 py-1 text-xs font-medium capitalize text-white dark:bg-white dark:text-neutral-900">
                     {user.role}
                   </span>
 
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${user.isVerified
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-amber-100 text-amber-700"
-                      }`}
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      user.isVerified
+                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400"
+                        : "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400"
+                    }`}
                   >
                     {user.isVerified ? "Verified" : "Not verified"}
                   </span>
 
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${user.isProfileCompleted
-                        ? "bg-blue-100 text-blue-700"
-                        : "bg-neutral-200 text-neutral-700"
-                      }`}
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      user.isProfileCompleted
+                        ? "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400"
+                        : "bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
+                    }`}
                   >
                     {user.isProfileCompleted
                       ? "Profile complete"
@@ -130,11 +133,11 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-center gap-3">
-              <NotificationBell/>
+              {/* <NotificationBell /> */}
               <button
                 type="button"
                 onClick={() => router.push("/profile")}
-                className="rounded-2xl border border-neutral-300 bg-white px-4 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+                className="rounded-2xl border border-neutral-300 bg-white px-4 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
               >
                 Edit profile
               </button>

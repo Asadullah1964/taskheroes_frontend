@@ -85,15 +85,15 @@ export default function ChatWindow({
   };
 
   return (
-    <div className="flex h-full min-w-0 flex-col bg-[#F7F7F5]">
-      <div className="flex shrink-0 items-center gap-3 border-b border-black/[0.06] bg-white px-4 py-3 md:px-6">
+    <div className="flex h-full min-w-0 flex-col bg-[#F7F7F5] text-[#151821] dark:bg-neutral-950 dark:text-neutral-100">
+      <div className="flex shrink-0 items-center gap-3 border-b border-black/[0.06] bg-white px-4 py-3 dark:border-white/10 dark:bg-neutral-900 md:px-6">
         <button
           onClick={onOpenSidebar}
-          className="inline-flex rounded-full p-2 transition hover:bg-black/5 md:hidden"
+          className="inline-flex rounded-full p-2 transition hover:bg-black/5 dark:hover:bg-white/10 md:hidden"
           aria-label="Open conversations"
         >
           <svg
-            className="h-5 w-5 text-[#151821]"
+            className="h-5 w-5 text-[#151821] dark:text-neutral-100"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -111,27 +111,29 @@ export default function ChatWindow({
           <img
             src={otherUser?.profileImage || "/default-avatar.png"}
             alt=""
-            className="h-9 w-9 rounded-full object-cover ring-1 ring-black/5"
+            className="h-9 w-9 rounded-full object-cover ring-1 ring-black/5 dark:ring-white/10"
           />
           {isOnline && (
-            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-400 ring-2 ring-white" />
+            <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-400 ring-2 ring-white dark:ring-neutral-900" />
           )}
         </div>
 
         <div className="min-w-0">
-          <h2 className="truncate text-sm font-semibold text-[#151821]">
+          <h2 className="truncate text-sm font-semibold text-[#151821] dark:text-neutral-100">
             {otherUser?.name || "Conversation"}
           </h2>
-          <p className="text-xs text-black/40">
+          <p className="text-xs text-black/40 dark:text-neutral-400">
             {isOnline ? "Online" : "Offline"}
           </p>
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto">
+      <div className="min-h-0 flex-1 overflow-y-auto bg-[#F7F7F5] dark:bg-neutral-950">
         {loading ? (
           <div className="flex h-full items-center justify-center">
-            <span className="text-sm text-black/40">Loading messages…</span>
+            <span className="text-sm text-black/40 dark:text-neutral-400">
+              Loading messages…
+            </span>
           </div>
         ) : (
           <MessageList messages={messages} currentUserId={currentUserId} />

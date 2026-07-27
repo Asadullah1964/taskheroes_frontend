@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "sonner";
 import api from "@/lib/api";
 
 export default function LoginPage() {
@@ -30,10 +31,14 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const res = await api.post("/auth/login", formData);
-      alert(res.data.message);
+      toast.success(res.data.message || "Login successful", {
+        duration: 3000,
+      });
       router.push("/dashboard");
     } catch (error: any) {
-      alert(error.response?.data?.message || "Login failed");
+      toast.error(error.response?.data?.message || "Login failed", {
+        duration: 3000,
+      });
     } finally {
       setLoading(false);
     }
@@ -45,10 +50,14 @@ export default function LoginPage() {
         token: credential,
       });
 
-      alert(res.data.message);
+      toast.success(res.data.message || "Google login successful", {
+        duration: 3000,
+      });
       router.push("/dashboard");
     } catch (error: any) {
-      alert(error.response?.data?.message || "Google Login Failed");
+      toast.error(error.response?.data?.message || "Google Login Failed", {
+        duration: 3000,
+      });
     }
   };
 

@@ -16,7 +16,6 @@ export default function ChatInput({ onSend, onTyping, onStopTyping }: Props) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const pickerRef = useRef<HTMLDivElement>(null);
 
-  // close picker on outside click
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
@@ -71,16 +70,15 @@ export default function ChatInput({ onSend, onTyping, onStopTyping }: Props) {
   };
 
   return (
-    <div className="relative shrink-0 border-t border-black/[0.06] bg-white px-3 py-3 md:px-6">
-      {/* Emoji popover */}
+    <div className="relative shrink-0 border-t border-black/[0.06] bg-white px-3 py-3 dark:border-white/10 dark:bg-neutral-900 md:px-6">
       {showEmoji && (
         <div
           ref={pickerRef}
-          className="absolute bottom-full left-3 md:left-6 mb-2 z-10 shadow-lg rounded-2xl overflow-hidden"
+          className="absolute bottom-full left-3 z-10 mb-2 overflow-hidden rounded-2xl shadow-lg md:left-6"
         >
           <EmojiPicker
             onEmojiClick={handleEmojiClick}
-            theme={Theme.LIGHT}
+            theme={Theme.DARK}
             width={320}
             height={380}
             searchDisabled={false}
@@ -91,12 +89,13 @@ export default function ChatInput({ onSend, onTyping, onStopTyping }: Props) {
       )}
 
       <div className="flex items-end gap-2">
-        {/* Emoji toggle */}
         <button
           type="button"
           onClick={() => setShowEmoji((v) => !v)}
           className={`shrink-0 rounded-full p-2.5 transition ${
-            showEmoji ? "bg-[#1F6F63]/10 text-[#1F6F63]" : "text-black/40 hover:bg-black/5"
+            showEmoji
+              ? "bg-[#1F6F63]/10 text-[#1F6F63] dark:bg-emerald-500/15 dark:text-emerald-400"
+              : "text-black/40 hover:bg-black/5 dark:text-neutral-400 dark:hover:bg-white/10"
           }`}
           aria-label="Open emoji picker"
         >
@@ -115,13 +114,13 @@ export default function ChatInput({ onSend, onTyping, onStopTyping }: Props) {
           onFocus={() => setShowEmoji(false)}
           placeholder="Type a message"
           rows={1}
-          className="flex-1 resize-none rounded-2xl bg-[#F2F2EF] px-4 py-2.5 text-sm text-[#151821] placeholder:text-black/35 outline-none ring-1 ring-transparent focus:ring-[#1F6F63] max-h-32 transition"
+          className="flex-1 max-h-32 resize-none rounded-2xl bg-[#F2F2EF] px-4 py-2.5 text-sm text-[#151821] placeholder:text-black/35 outline-none ring-1 ring-transparent transition focus:ring-[#1F6F63] dark:bg-neutral-800 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:ring-emerald-400"
         />
 
         <button
           onClick={handleSend}
           disabled={!text.trim()}
-          className="shrink-0 rounded-full bg-[#1F6F63] p-3 text-white transition disabled:opacity-30 disabled:cursor-not-allowed hover:bg-[#195b52]"
+          className="shrink-0 rounded-full bg-[#1F6F63] p-3 text-white transition hover:bg-[#195b52] disabled:cursor-not-allowed disabled:opacity-30 dark:bg-emerald-500 dark:hover:bg-emerald-600"
           aria-label="Send message"
         >
           <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
