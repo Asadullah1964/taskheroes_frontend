@@ -104,13 +104,13 @@ export default function BecomeWorkerPage() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <main className="min-h-screen bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6">
           <button
             type="button"
             onClick={() => router.push("/dashboard")}
-            className="mb-4 text-sm font-medium text-neutral-500 transition hover:text-neutral-900"
+            className="mb-4 text-sm font-medium text-neutral-500 transition hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
           >
             ← Back to dashboard
           </button>
@@ -118,23 +118,23 @@ export default function BecomeWorkerPage() {
 
         <div className="grid gap-6 lg:grid-cols-3">
           <section className="space-y-6 lg:col-span-2">
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
+            <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20 sm:p-8">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <span className="inline-flex rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700">
+                  <span className="inline-flex rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
                     Worker setup
                   </span>
-                  <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950">
+                  <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
                     Become a worker
                   </h1>
-                  <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-500">
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-500 dark:text-neutral-400">
                     Create your professional profile so clients can discover
                     your skills, understand your experience, and trust you with
                     real work.
                   </p>
                 </div>
 
-                <div className="rounded-2xl bg-neutral-50 px-4 py-3 text-sm text-neutral-600">
+                <div className="rounded-2xl bg-neutral-50 px-4 py-3 text-sm text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
                   {parsedSkills.length > 0
                     ? `${parsedSkills.length} skill${
                         parsedSkills.length > 1 ? "s" : ""
@@ -143,10 +143,7 @@ export default function BecomeWorkerPage() {
                 </div>
               </div>
 
-              <form
-                onSubmit={handleSubmit}
-                className="mt-8 space-y-6"
-              >
+              <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                 <FormField
                   label="Profession"
                   htmlFor="title"
@@ -200,11 +197,11 @@ export default function BecomeWorkerPage() {
                     />
 
                     {parsedSkills.length > 0 && (
-                      <div className="flex flex-wrap gap-2 rounded-2xl bg-neutral-50 p-4">
+                      <div className="flex flex-wrap gap-2 rounded-2xl bg-neutral-50 p-4 dark:bg-neutral-800">
                         {parsedSkills.map((skill, index) => (
                           <span
                             key={`${skill}-${index}`}
-                            className="rounded-full bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white"
+                            className="rounded-full bg-neutral-900 px-3 py-1.5 text-xs font-medium text-white dark:bg-white dark:text-neutral-900"
                           >
                             {skill}
                           </span>
@@ -272,7 +269,7 @@ export default function BecomeWorkerPage() {
                 </FormField>
 
                 {error && (
-                  <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200">
+                  <div className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700 ring-1 ring-red-200 dark:bg-red-500/10 dark:text-red-400 dark:ring-red-500/20">
                     {error}
                   </div>
                 )}
@@ -281,7 +278,7 @@ export default function BecomeWorkerPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="inline-flex w-full items-center justify-center rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200 sm:w-auto"
                   >
                     {loading ? "Creating profile..." : "Become a worker"}
                   </button>
@@ -289,7 +286,7 @@ export default function BecomeWorkerPage() {
                   <button
                     type="button"
                     onClick={() => router.push("/dashboard")}
-                    className="inline-flex w-full items-center justify-center rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 sm:w-auto"
+                    className="inline-flex w-full items-center justify-center rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800 sm:w-auto"
                   >
                     Cancel
                   </button>
@@ -299,8 +296,8 @@ export default function BecomeWorkerPage() {
           </section>
 
           <aside className="space-y-6">
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-neutral-950">
+            <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+              <h2 className="text-lg font-semibold text-neutral-950 dark:text-neutral-100">
                 Strong profile checklist
               </h2>
 
@@ -332,17 +329,17 @@ export default function BecomeWorkerPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-neutral-900 p-6 text-white shadow-sm">
+            <div className="rounded-3xl bg-neutral-900 p-6 text-white shadow-sm dark:bg-white dark:text-neutral-900">
               <h2 className="text-lg font-semibold">What clients look for</h2>
-              <p className="mt-2 text-sm leading-6 text-white/70">
+              <p className="mt-2 text-sm leading-6 text-white/70 dark:text-neutral-600">
                 Clients trust profiles that clearly explain the service, show
                 real skills, include pricing, and mention location and
                 experience.
               </p>
             </div>
 
-            <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold text-neutral-950">
+            <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+              <h2 className="text-lg font-semibold text-neutral-950 dark:text-neutral-100">
                 Example profession titles
               </h2>
               <div className="mt-4 flex flex-wrap gap-2">
@@ -356,7 +353,7 @@ export default function BecomeWorkerPage() {
                 ].map((item) => (
                   <span
                     key={item}
-                    className="rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium text-neutral-700"
+                    className="rounded-full bg-neutral-100 px-3 py-1.5 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300"
                   >
                     {item}
                   </span>
@@ -387,20 +384,20 @@ function FormField({
     <div>
       <label
         htmlFor={htmlFor}
-        className="mb-2 block text-sm font-medium text-neutral-800"
+        className="mb-2 block text-sm font-medium text-neutral-800 dark:text-neutral-200"
       >
         {label}
       </label>
 
       {description && (
-        <p className="mb-3 text-sm text-neutral-500">{description}</p>
+        <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">
+          {description}
+        </p>
       )}
 
       {children}
 
-      {error && (
-        <p className="mt-2 text-sm text-red-600">{error}</p>
-      )}
+      {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }
@@ -413,13 +410,15 @@ function ChecklistItem({
   done: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-neutral-50 px-4 py-3">
-      <span className="text-sm text-neutral-700">{label}</span>
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-neutral-50 px-4 py-3 dark:bg-neutral-800">
+      <span className="text-sm text-neutral-700 dark:text-neutral-300">
+        {label}
+      </span>
       <span
         className={`rounded-full px-2.5 py-1 text-xs font-medium ${
           done
-            ? "bg-emerald-100 text-emerald-700"
-            : "bg-amber-100 text-amber-700"
+            ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
+            : "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400"
         }`}
       >
         {done ? "Done" : "Pending"}
@@ -429,9 +428,9 @@ function ChecklistItem({
 }
 
 function inputClass(hasError: boolean) {
-  return `w-full rounded-2xl border bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 ${
+  return `w-full rounded-2xl border bg-white px-4 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 ${
     hasError
-      ? "border-red-300 ring-4 ring-red-100 focus:border-red-400"
-      : "border-neutral-300 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+      ? "border-red-300 ring-4 ring-red-100 focus:border-red-400 dark:border-red-500/40 dark:ring-red-500/10"
+      : "border-neutral-300 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:focus:border-neutral-400 dark:focus:ring-white/10"
   }`;
 }

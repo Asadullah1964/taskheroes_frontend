@@ -61,21 +61,21 @@ export default function WorkerTasksTabs() {
   };
 
   const filteredTasks = useMemo(() => {
-  if (activeTab === "all") return tasks;
+    if (activeTab === "all") return tasks;
 
-  if (activeTab === "completed") {
-    return tasks.filter(
-      (task) => task.taskStatus?.toLowerCase() === "completed"
-    );
-  }
+    if (activeTab === "completed") {
+      return tasks.filter(
+        (task) => task.taskStatus?.toLowerCase() === "completed"
+      );
+    }
 
-  const tab = tabs.find((t) => t.key === activeTab);
+    const tab = tabs.find((t) => t.key === activeTab);
 
-  return tasks.filter((task) => {
-    const status = tab?.status?.toLowerCase();
-    return task.applicationStatus?.toLowerCase() === status;
-  });
-}, [tasks, activeTab]);
+    return tasks.filter((task) => {
+      const status = tab?.status?.toLowerCase();
+      return task.applicationStatus?.toLowerCase() === status;
+    });
+  }, [tasks, activeTab]);
 
   const counts = useMemo(() => {
     return {
@@ -97,10 +97,10 @@ export default function WorkerTasksTabs() {
 
   if (loading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="flex min-h-[60vh] items-center justify-center bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
         <div className="text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-neutral-200 border-t-neutral-900" />
-          <h2 className="mt-4 text-lg font-semibold text-neutral-900">
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-neutral-200 border-t-neutral-900 dark:border-neutral-800 dark:border-t-white" />
+          <h2 className="mt-4 text-lg font-semibold text-neutral-900 dark:text-neutral-100">
             Loading your tasks...
           </h2>
         </div>
@@ -109,26 +109,29 @@ export default function WorkerTasksTabs() {
   }
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-4 py-8 text-neutral-900 dark:text-neutral-100 sm:px-6 lg:px-8">
       <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="inline-flex rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700">
+          <span className="inline-flex rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
             Worker tasks
           </span>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950">
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
             Task activity
           </h1>
-          <p className="mt-2 text-sm leading-6 text-neutral-500">
+          <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
             Track the tasks you applied for, accepted, completed, and rejected.
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white px-4 py-3 text-sm text-neutral-600 shadow-sm ring-1 ring-neutral-200">
-          Total tasks: <span className="font-semibold text-neutral-900">{tasks.length}</span>
+        <div className="rounded-2xl bg-white px-4 py-3 text-sm text-neutral-600 shadow-sm ring-1 ring-neutral-200 dark:bg-neutral-900 dark:text-neutral-300 dark:ring-neutral-800">
+          Total tasks:{" "}
+          <span className="font-semibold text-neutral-900 dark:text-neutral-100">
+            {tasks.length}
+          </span>
         </div>
       </div>
 
-      <div className="mb-6 flex gap-2 overflow-x-auto rounded-2xl bg-white p-2 shadow-sm ring-1 ring-neutral-200">
+      <div className="mb-6 flex gap-2 overflow-x-auto rounded-2xl bg-white p-2 shadow-sm ring-1 ring-neutral-200 dark:bg-neutral-900 dark:ring-neutral-800">
         {tabs.map((tab) => {
           const active = activeTab === tab.key;
 
@@ -138,16 +141,16 @@ export default function WorkerTasksTabs() {
               onClick={() => setActiveTab(tab.key)}
               className={`whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-medium transition ${
                 active
-                  ? "bg-neutral-900 text-white"
-                  : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900"
+                  ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                  : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
               }`}
             >
               {tab.label}
               <span
                 className={`ml-2 rounded-full px-2 py-0.5 text-xs ${
                   active
-                    ? "bg-white/10 text-white"
-                    : "bg-neutral-100 text-neutral-600"
+                    ? "bg-white/10 text-white dark:bg-neutral-900/10 dark:text-neutral-900"
+                    : "bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300"
                 }`}
               >
                 {counts[tab.key]}
@@ -173,21 +176,23 @@ export default function WorkerTasksTabs() {
 function TaskCard({ task }: { task: AppliedTask }) {
   const statusTone =
     task.applicationStatus?.toLowerCase() === "accepted"
-      ? "bg-emerald-100 text-emerald-700"
+      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400"
       : task.applicationStatus?.toLowerCase() === "rejected"
-      ? "bg-red-100 text-red-700"
+      ? "bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400"
       : task.taskStatus?.toLowerCase() === "completed"
-      ? "bg-blue-100 text-blue-700"
-      : "bg-amber-100 text-amber-700";
+      ? "bg-blue-100 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400"
+      : "bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400";
 
   return (
-    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20 dark:hover:shadow-black/30">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h2 className="truncate text-xl font-semibold tracking-tight text-neutral-950">
+          <h2 className="truncate text-xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
             {task.title}
           </h2>
-          <p className="mt-1 text-sm text-neutral-500">{task.category}</p>
+          <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+            {task.category}
+          </p>
         </div>
 
         <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-medium ${statusTone}`}>
@@ -195,7 +200,7 @@ function TaskCard({ task }: { task: AppliedTask }) {
         </span>
       </div>
 
-      <p className="mt-4 line-clamp-2 text-sm leading-6 text-neutral-600">
+      <p className="mt-4 line-clamp-2 text-sm leading-6 text-neutral-600 dark:text-neutral-300">
         {task.description}
       </p>
 
@@ -210,13 +215,13 @@ function TaskCard({ task }: { task: AppliedTask }) {
       </div>
 
       <div className="mt-5 flex items-center justify-between gap-3">
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
           Applied on {new Date(task.appliedAt).toLocaleDateString()}
         </p>
 
         <Link
           href={`/tasks/${task._id}`}
-          className="inline-flex items-center justify-center rounded-2xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800"
+          className="inline-flex items-center justify-center rounded-2xl bg-neutral-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
         >
           View task
         </Link>
@@ -233,9 +238,13 @@ function InfoRow({
   value: string;
 }) {
   return (
-    <div className="rounded-2xl bg-neutral-50 p-4">
-      <p className="text-xs uppercase tracking-wide text-neutral-500">{label}</p>
-      <p className="mt-1 text-sm font-medium text-neutral-900">{value}</p>
+    <div className="rounded-2xl bg-neutral-50 p-4 dark:bg-neutral-800">
+      <p className="text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+        {label}
+      </p>
+      <p className="mt-1 text-sm font-medium text-neutral-900 dark:text-neutral-100">
+        {value}
+      </p>
     </div>
   );
 }
@@ -267,9 +276,13 @@ function EmptyState({ activeTab }: { activeTab: TabKey }) {
   const state = messages[activeTab];
 
   return (
-    <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-10 text-center">
-      <h2 className="text-xl font-semibold text-neutral-950">{state.title}</h2>
-      <p className="mt-2 text-sm leading-6 text-neutral-500">{state.text}</p>
+    <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-10 text-center dark:border-neutral-700 dark:bg-neutral-900">
+      <h2 className="text-xl font-semibold text-neutral-950 dark:text-neutral-100">
+        {state.title}
+      </h2>
+      <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
+        {state.text}
+      </p>
     </div>
   );
 }

@@ -83,10 +83,10 @@ export default function TaskApplicationsPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-neutral-50 px-4 py-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          <div className="rounded-3xl border border-neutral-200 bg-white p-10 text-center shadow-sm">
-            <p className="text-lg font-medium text-neutral-700">
+          <div className="rounded-3xl border border-neutral-200 bg-white p-10 text-center shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+            <p className="text-lg font-medium text-neutral-700 dark:text-neutral-300">
               Loading applications...
             </p>
           </div>
@@ -97,18 +97,18 @@ export default function TaskApplicationsPage() {
 
   if (!task) {
     return (
-      <main className="min-h-screen bg-neutral-50 px-4 py-10 sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-neutral-50 px-4 py-10 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <div className="rounded-3xl border border-neutral-200 bg-white p-10 text-center shadow-sm">
-            <h1 className="text-2xl font-semibold text-neutral-900">
+          <div className="rounded-3xl border border-neutral-200 bg-white p-10 text-center shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+            <h1 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
               Task not found
             </h1>
-            <p className="mt-2 text-sm text-neutral-500">
+            <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
               The task or its applications could not be loaded.
             </p>
             <button
               onClick={() => router.back()}
-              className="mt-5 rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+              className="mt-5 rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
               Go back
             </button>
@@ -119,36 +119,39 @@ export default function TaskApplicationsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-neutral-50 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-neutral-50 px-4 py-8 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-6">
-        <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20 sm:p-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
-              <div className="inline-flex rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 text-sm text-neutral-600">
+              <div className="inline-flex rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 text-sm text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
                 Task applications
               </div>
 
-              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 sm:text-4xl">
+              <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100 sm:text-4xl">
                 Review worker applications
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-neutral-500">
-                Manage proposals for <span className="font-medium text-neutral-800">{task.title}</span>.
-                Review workers, compare expected prices, and accept or reject applications.
+              <p className="mt-3 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
+                Manage proposals for{" "}
+                <span className="font-medium text-neutral-800 dark:text-neutral-200">
+                  {task.title}
+                </span>
+                . Review workers, compare expected prices, and accept or reject applications.
               </p>
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <button
                 onClick={() => router.back()}
-                className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+                className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
               >
                 Back
               </button>
 
               <Link
                 href={`/tasks/${task._id}`}
-                className="rounded-2xl bg-neutral-900 px-5 py-3 text-center text-sm font-medium text-white transition hover:bg-neutral-800"
+                className="rounded-2xl bg-neutral-900 px-5 py-3 text-center text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
               >
                 View task
               </Link>
@@ -164,22 +167,22 @@ export default function TaskApplicationsPage() {
         </section>
 
         {error && (
-          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400">
             {error}
           </div>
         )}
 
         {task.applications.length === 0 ? (
-          <section className="rounded-3xl border border-dashed border-neutral-300 bg-white p-12 text-center shadow-sm">
-            <h2 className="text-2xl font-semibold text-neutral-900">
+          <section className="rounded-3xl border border-dashed border-neutral-300 bg-white p-12 text-center shadow-sm dark:border-neutral-700 dark:bg-neutral-900 dark:shadow-black/20">
+            <h2 className="text-2xl font-semibold text-neutral-900 dark:text-neutral-100">
               No applications yet
             </h2>
-            <p className="mt-2 text-sm leading-6 text-neutral-500">
+            <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
               No worker has applied for this task so far.
             </p>
             <Link
               href={`/tasks/${task._id}`}
-              className="mt-5 inline-flex rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800"
+              className="mt-5 inline-flex rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
             >
               Back to task
             </Link>
@@ -213,19 +216,19 @@ function StatsCard({
 }) {
   const toneClasses =
     tone === "success"
-      ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+      ? "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
       : tone === "warning"
-      ? "bg-amber-50 text-amber-700 border-amber-200"
+      ? "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20"
       : tone === "danger"
-      ? "bg-red-50 text-red-700 border-red-200"
-      : "bg-neutral-50 text-neutral-900 border-neutral-200";
+      ? "bg-red-50 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20"
+      : "bg-neutral-50 text-neutral-900 border-neutral-200 dark:bg-neutral-800 dark:text-neutral-100 dark:border-neutral-700";
 
   return (
-    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm">
+    <div className="rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
       <div className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${toneClasses}`}>
         {title}
       </div>
-      <p className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950">
+      <p className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
         {value}
       </p>
     </div>
@@ -245,30 +248,33 @@ function ApplicationCard({
 }) {
   const statusClasses =
     application.status === "Accepted"
-      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+      ? "bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20"
       : application.status === "Rejected"
-      ? "bg-red-50 text-red-700 border border-red-200"
-      : "bg-amber-50 text-amber-700 border border-amber-200";
+      ? "bg-red-50 text-red-700 border border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20"
+      : "bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20";
 
   return (
-    <article className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md">
+    <article className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20 dark:hover:shadow-black/30">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="flex min-w-0 items-start gap-4">
           {application.worker.profileImage ? (
             <img
               src={application.worker.profileImage}
               alt={application.worker.name}
-              className="h-14 w-14 rounded-full object-cover"
+              className="h-14 w-14 rounded-full object-cover ring-1 ring-neutral-200 dark:ring-neutral-700"
             />
           ) : (
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-900 text-lg font-semibold text-white">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-900 text-lg font-semibold text-white dark:bg-white dark:text-neutral-900">
               {application.worker.name.charAt(0).toUpperCase()}
             </div>
           )}
 
           <div className="min-w-0">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Link href={`/worker/${application.worker._id}`} className="text-xl font-semibold tracking-tight text-neutral-950 hover:text-blue-600 hover:underline">
+              <Link
+                href={`/worker/${application.worker._id}`}
+                className="text-xl font-semibold tracking-tight text-neutral-950 transition hover:text-blue-600 hover:underline dark:text-neutral-100 dark:hover:text-blue-400"
+              >
                 {application.worker.name}
               </Link>
 
@@ -277,7 +283,7 @@ function ApplicationCard({
               </span>
             </div>
 
-            <p className="mt-1 break-all text-sm text-neutral-500">
+            <p className="mt-1 break-all text-sm text-neutral-500 dark:text-neutral-400">
               {application.worker.email}
             </p>
           </div>
@@ -299,11 +305,11 @@ function ApplicationCard({
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl bg-neutral-50 p-5">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500">
+      <div className="mt-6 rounded-2xl bg-neutral-50 p-5 dark:bg-neutral-800">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-neutral-500 dark:text-neutral-400">
           Proposal
         </p>
-        <p className="mt-3 text-sm leading-7 text-neutral-700">
+        <p className="mt-3 text-sm leading-7 text-neutral-700 dark:text-neutral-300">
           {application.proposal}
         </p>
       </div>
@@ -311,7 +317,7 @@ function ApplicationCard({
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href={`/worker/${application.worker._id}`}
-          className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+          className="rounded-2xl border border-neutral-300 bg-white px-4 py-2.5 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
         >
           View profile
         </Link>
@@ -319,7 +325,7 @@ function ApplicationCard({
         <button
           onClick={onAccept}
           disabled={loading || application.status === "Accepted"}
-          className="rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-neutral-300"
+          className="rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-neutral-300 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:disabled:bg-neutral-700"
         >
           {loading && application.status !== "Rejected" ? "Updating..." : "Accept"}
         </button>
@@ -327,7 +333,7 @@ function ApplicationCard({
         <button
           onClick={onReject}
           disabled={loading || application.status === "Rejected"}
-          className="rounded-2xl bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-neutral-300"
+          className="rounded-2xl bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-neutral-300 dark:bg-red-500 dark:hover:bg-red-600 dark:disabled:bg-neutral-700"
         >
           {loading && application.status !== "Accepted" ? "Updating..." : "Reject"}
         </button>
@@ -344,11 +350,13 @@ function MetaBox({
   value: string;
 }) {
   return (
-    <div className="rounded-2xl bg-neutral-50 px-4 py-3">
-      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+    <div className="rounded-2xl bg-neutral-50 px-4 py-3 dark:bg-neutral-800">
+      <p className="text-xs font-medium uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
         {label}
       </p>
-      <p className="mt-2 text-sm font-semibold text-neutral-900">{value}</p>
+      <p className="mt-2 text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+        {value}
+      </p>
     </div>
   );
 }

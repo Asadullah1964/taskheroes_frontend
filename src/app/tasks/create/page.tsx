@@ -1,6 +1,6 @@
 "use client";
-import { Suspense } from "react";
-import { useMemo, useState } from "react";
+
+import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createTask } from "@/services/task";
 
@@ -94,26 +94,22 @@ function CreateTaskForm() {
     }
   };
 
-  function CreateTaskForm() {
-   // Paste ALL your existing code here
-}
-
   return (
-    <main className="min-h-screen bg-neutral-50 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-neutral-50 px-4 py-8 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
-        <div className="rounded-3xl border border-neutral-200 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.06)]">
-          <div className="border-b border-neutral-200 px-6 py-6 sm:px-8">
+        <div className="rounded-3xl border border-neutral-200 bg-white shadow-[0_10px_40px_rgba(0,0,0,0.06)] dark:border-neutral-800 dark:bg-neutral-900 dark:shadow-black/20">
+          <div className="border-b border-neutral-200 px-6 py-6 dark:border-neutral-800 sm:px-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="max-w-2xl">
-                <span className="inline-flex rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 text-sm text-neutral-600">
+                <span className="inline-flex rounded-full border border-neutral-200 bg-neutral-100 px-4 py-2 text-sm text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
                   New task
                 </span>
 
-                <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950">
+                <h1 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-950 dark:text-neutral-100">
                   Create a new task
                 </h1>
 
-                <p className="mt-2 text-sm leading-6 text-neutral-500">
+                <p className="mt-2 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
                   Add clear details so workers can understand the job, budget, and deadline quickly.
                 </p>
               </div>
@@ -121,7 +117,7 @@ function CreateTaskForm() {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+                className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
               >
                 Cancel
               </button>
@@ -131,13 +127,13 @@ function CreateTaskForm() {
           <form onSubmit={handleSubmit} className="px-6 py-6 sm:px-8">
             <div className="grid gap-5">
               {error && (
-                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-400">
                   {error}
                 </div>
               )}
 
               {success && (
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-400">
                   {success}
                 </div>
               )}
@@ -145,7 +141,7 @@ function CreateTaskForm() {
               <div>
                 <label
                   htmlFor="title"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                 >
                   Task title
                 </label>
@@ -157,14 +153,14 @@ function CreateTaskForm() {
                   value={formData.title}
                   onChange={handleChange}
                   placeholder="e.g. Need a plumber to fix kitchen sink leak"
-                  className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+                  className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-white/10"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="description"
-                  className="mb-2 block text-sm font-medium text-neutral-700"
+                  className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                 >
                   Description
                 </label>
@@ -176,7 +172,7 @@ function CreateTaskForm() {
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Describe the work, preferred timing, materials, or any important instructions."
-                  className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+                  className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-white/10"
                 />
               </div>
 
@@ -184,7 +180,7 @@ function CreateTaskForm() {
                 <div>
                   <label
                     htmlFor="category"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
                     Category
                   </label>
@@ -194,7 +190,7 @@ function CreateTaskForm() {
                     value={formData.category}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-white/10"
                   >
                     <option value="">Select category</option>
                     {categories.map((category) => (
@@ -208,7 +204,7 @@ function CreateTaskForm() {
                 <div>
                   <label
                     htmlFor="budget"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
                     Budget
                   </label>
@@ -221,7 +217,7 @@ function CreateTaskForm() {
                     required
                     min="1"
                     placeholder="Enter your budget"
-                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-white/10"
                   />
                 </div>
               </div>
@@ -230,7 +226,7 @@ function CreateTaskForm() {
                 <div>
                   <label
                     htmlFor="location"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
                     Location
                   </label>
@@ -242,14 +238,14 @@ function CreateTaskForm() {
                     onChange={handleChange}
                     required
                     placeholder="e.g. Andheri West, Mumbai"
-                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-white/10"
                   />
                 </div>
 
                 <div>
                   <label
                     htmlFor="deadline"
-                    className="mb-2 block text-sm font-medium text-neutral-700"
+                    className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
                     Deadline
                   </label>
@@ -261,17 +257,17 @@ function CreateTaskForm() {
                     onChange={handleChange}
                     required
                     min={today}
-                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10"
+                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:focus:border-neutral-400 dark:focus:ring-white/10"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 flex flex-col gap-3 border-t border-neutral-200 pt-6 sm:flex-row sm:justify-end">
+            <div className="mt-8 flex flex-col gap-3 border-t border-neutral-200 pt-6 dark:border-neutral-800 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={handleCancel}
-                className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+                className="rounded-2xl border border-neutral-300 bg-white px-5 py-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
               >
                 Cancel
               </button>
@@ -279,7 +275,7 @@ function CreateTaskForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
               >
                 {loading ? "Creating task..." : "Create task"}
               </button>
@@ -295,7 +291,7 @@ export default function CreateTaskPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
+        <div className="flex min-h-screen items-center justify-center bg-neutral-50 text-neutral-600 dark:bg-neutral-950 dark:text-neutral-400">
           Loading...
         </div>
       }
