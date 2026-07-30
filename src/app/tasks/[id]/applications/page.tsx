@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { getTaskApplications, updateApplicationStatus } from "@/services/task";
+import PayNowButton from "@/components/payment/PayNowButton";
+import router from "next/dist/shared/lib/router/router";
 
 interface Worker {
   _id: string;
@@ -191,12 +193,15 @@ export default function TaskApplicationsPage() {
           <section className="space-y-5">
             {task.applications.map((application) => (
               <ApplicationCard
-                key={application._id}
-                application={application}
-                loading={updatingId === application._id}
-                onAccept={() => changeStatus(application._id, "Accepted")}
-                onReject={() => changeStatus(application._id, "Rejected")}
-              />
+  key={application._id}
+  taskId={task._id}
+  taskTitle={task.title}
+  application={application}
+  loading={updatingId === application._id}
+  onAccept={() => changeStatus(application._id, "Accepted")}
+  onReject={() => changeStatus(application._id, "Rejected")}
+  onPaymentSuccess={fetchApplications}
+/>
             ))}
           </section>
         )}
@@ -236,15 +241,21 @@ function StatsCard({
 }
 
 function ApplicationCard({
+  taskId,
+  taskTitle,
   application,
   loading,
   onAccept,
   onReject,
+  onPaymentSuccess,
 }: {
+  taskId: string;
+  taskTitle: string;
   application: Application;
   loading: boolean;
   onAccept: () => void;
   onReject: () => void;
+  onPaymentSuccess: () => void;
 }) {
   const statusClasses =
     application.status === "Accepted"
@@ -322,6 +333,15 @@ function ApplicationCard({
           View profile
         </Link>
 
+        {/* <PayNowButton
+  taskId={task._id}
+  taskTitle={task.title}
+  onSuccess={() => {
+    router.refresh();
+  }}
+/> */}
+
+
         <button
           onClick={onAccept}
           disabled={loading || application.status === "Accepted"}
@@ -329,6 +349,14 @@ function ApplicationCard({
         >
           {loading && application.status !== "Rejected" ? "Updating..." : "Accept"}
         </button>
+        <PayNowButton
+  taskId={taskId}
+  workerId={application.worker._id}
+  taskTitle={taskTitle}
+  onSuccess={onPaymentSuccess}
+/>
+
+
 
         <button
           onClick={onReject}
