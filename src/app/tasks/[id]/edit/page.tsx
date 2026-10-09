@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 
 import { getTaskById, updateTask } from "@/services/task";
+import LocationPicker from "@/components/location/LocationPicker";
+import { Coordinates } from "@/utils/location";
 
 const categories = [
   "Cleaning",
@@ -44,6 +46,9 @@ export default function EditTaskPage() {
     deadline: "",
   });
 
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [city, setCity] = useState<string>("");
+
   useEffect(() => {
     if (id) {
       fetchTask();
@@ -66,6 +71,9 @@ export default function EditTaskPage() {
         location: task.location ?? "",
         deadline: task.deadline ? task.deadline.split("T")[0] : "",
       });
+
+      if (task.coordinates) setCoordinates(task.coordinates);
+      if (task.city) setCity(task.city);
     } catch (error: any) {
       console.error(error);
       setErrorMessage(
@@ -116,6 +124,8 @@ export default function EditTaskPage() {
         budget: Number(formData.budget),
         location: formData.location.trim(),
         deadline: formData.deadline,
+        coordinates,
+        city,
       });
 
       setSuccessMessage("Task updated successfully.");
@@ -286,17 +296,17 @@ export default function EditTaskPage() {
                     htmlFor="location"
                     className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
-                    Location
+                    Task Location
                   </label>
-                  <input
-                    id="location"
-                    type="text"
-                    name="location"
+                  <LocationPicker
                     value={formData.location}
-                    onChange={handleChange}
+                    onChange={(loc, coords, cty) => {
+                      setErrorMessage("");
+                      setFormData((prev) => ({ ...prev, location: loc }));
+                      if (coords) setCoordinates(coords);
+                      if (cty) setCity(cty);
+                    }}
                     placeholder="Enter task location"
-                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-white/10"
-                    required
                   />
                 </div>
 

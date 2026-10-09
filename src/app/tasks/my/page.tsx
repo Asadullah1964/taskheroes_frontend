@@ -1,157 +1,75 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { Plus, ArrowLeft } from "lucide-react";
+import MyTasksSection from "@/components/tasks/MyTasks";
 
-import { getMyTasks } from "@/services/task";
-import { Task } from "@/types/task";
+type TaskFilter = "all" | "Open" | "Assigned" | "Completed";
 
 export default function MyTasksPage() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
-    try {
-      const data = await getMyTasks();
-      setTasks(data.tasks);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="text-center mt-20 text-xl">
-        Loading...
-      </div>
-    );
-  }
+  const [activeTab, setActiveTab] = useState<TaskFilter>("all");
+  const tabs: TaskFilter[] = ["all", "Open", "Assigned", "Completed"];
 
   return (
-    <main className="max-w-7xl mx-auto p-6">
-
-      <div className="flex justify-between items-center mb-8">
-
-        <h1 className="text-3xl font-bold">
-          My Tasks
-        </h1>
-
-        <Link
-          href="/tasks/create"
-          className="bg-blue-600 text-white px-5 py-2 rounded-lg"
-        >
-          + New Task
-        </Link>
-
-      </div>
-
-      {tasks.length === 0 ? (
-        <div className="bg-white shadow rounded-xl p-10 text-center">
-          <h2 className="text-xl">
-            You haven't created any tasks yet.
-          </h2>
+    <main className="min-h-screen bg-neutral-50 px-4 py-8 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl space-y-6">
+        <div className="flex items-center justify-between">
+          <Link
+            href="/dashboard"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Dashboard</span>
+          </Link>
         </div>
-      ) : (
-        <div className="grid lg:grid-cols-2 gap-6">
 
-          {tasks.map((task) => (
-
-            <div
-              key={task._id}
-              className="bg-white rounded-xl shadow p-6"
-            >
-
-              <div className="flex justify-between">
-
-                <h2 className="text-xl font-bold">
-                  {task.title}
-                </h2>
-
-                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-                  {task.status}
-                </span>
-
-              </div>
-
-              <p className="mt-3 text-gray-600 line-clamp-2">
-                {task.description}
+        <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900 sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-700 dark:bg-neutral-800 dark:text-neutral-300">
+                Client Tasks
+              </span>
+              <h1 className="mt-3 text-3xl font-bold tracking-tight text-neutral-950 dark:text-neutral-100">
+                My Posted Tasks
+              </h1>
+              <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
+                View, edit, and track progress for all the tasks you created.
               </p>
-
-              <div className="grid grid-cols-2 gap-4 mt-5">
-
-                <div>
-                  <p className="text-gray-500">
-                    Budget
-                  </p>
-
-                  <p className="font-semibold">
-                    ₹ {task.budget}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-gray-500">
-                    Category
-                  </p>
-
-                  <p>{task.category}</p>
-                </div>
-
-                <div>
-                  <p className="text-gray-500">
-                    Deadline
-                  </p>
-
-                  <p>
-                    {new Date(
-                      task.deadline
-                    ).toLocaleDateString()}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-gray-500">
-                    Applications
-                  </p>
-
-                  <p>
-                    {task.applications.length}
-                  </p>
-                </div>
-
-              </div>
-
-              <div className="flex gap-3 mt-6">
-
-                <Link
-                  href={`/tasks/${task._id}`}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
-                >
-                  View
-                </Link>
-
-                <Link
-                  href={`/tasks/${task._id}/edit`}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg"
-                >
-                  Edit
-                </Link>
-
-              </div>
-
             </div>
 
-          ))}
+            <Link
+              href="/tasks/create"
+              className="inline-flex items-center gap-2 rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-neutral-800 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Post New Task</span>
+            </Link>
+          </div>
+        </section>
 
-        </div>
-      )}
+        <section className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+          <div className="flex flex-wrap gap-2 border-b border-neutral-200 pb-5 dark:border-neutral-800">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
+                  activeTab === tab
+                    ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900"
+                    : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700"
+                }`}
+              >
+                {tab === "all" ? "All Tasks" : tab}
+              </button>
+            ))}
+          </div>
 
+          <div className="mt-6">
+            <MyTasksSection filter={activeTab} />
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

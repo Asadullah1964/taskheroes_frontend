@@ -69,6 +69,13 @@ export default function WorkerTasksTabs() {
       );
     }
 
+    if (activeTab === "applied") {
+      return tasks.filter((task) => {
+        const s = task.applicationStatus?.toLowerCase();
+        return s === "pending" || s === "applied";
+      });
+    }
+
     const tab = tabs.find((t) => t.key === activeTab);
 
     return tasks.filter((task) => {
@@ -80,9 +87,10 @@ export default function WorkerTasksTabs() {
   const counts = useMemo(() => {
     return {
       all: tasks.length,
-      applied: tasks.filter(
-        (t) => t.applicationStatus?.toLowerCase() === "applied"
-      ).length,
+      applied: tasks.filter((t) => {
+        const s = t.applicationStatus?.toLowerCase();
+        return s === "pending" || s === "applied";
+      }).length,
       accepted: tasks.filter(
         (t) => t.applicationStatus?.toLowerCase() === "accepted"
       ).length,

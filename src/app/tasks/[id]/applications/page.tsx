@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { getTaskApplications, updateApplicationStatus } from "@/services/task";
 import PayNowButton from "@/components/payment/PayNowButton";
-import router from "next/dist/shared/lib/router/router";
 
 interface Worker {
   _id: string;
@@ -342,29 +341,36 @@ function ApplicationCard({
 /> */}
 
 
-        <button
-          onClick={onAccept}
-          disabled={loading || application.status === "Accepted"}
-          className="rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-neutral-300 dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:disabled:bg-neutral-700"
-        >
-          {loading && application.status !== "Rejected" ? "Updating..." : "Accept"}
-        </button>
-        <PayNowButton
-  taskId={taskId}
-  workerId={application.worker._id}
-  taskTitle={taskTitle}
-  onSuccess={onPaymentSuccess}
-/>
+        {application.status === "Pending" && (
+          <>
+            <button
+              onClick={onAccept}
+              disabled={loading}
+              className="rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-emerald-700 disabled:opacity-50 dark:bg-emerald-500 dark:hover:bg-emerald-600"
+            >
+              {loading ? "Accepting..." : "Accept & Hire"}
+            </button>
 
+            <button
+              onClick={onReject}
+              disabled={loading}
+              className="rounded-2xl bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-50 dark:bg-red-500 dark:hover:bg-red-600"
+            >
+              {loading ? "Rejecting..." : "Reject"}
+            </button>
+          </>
+        )}
 
-
-        <button
-          onClick={onReject}
-          disabled={loading || application.status === "Rejected"}
-          className="rounded-2xl bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:bg-neutral-300 dark:bg-red-500 dark:hover:bg-red-600 dark:disabled:bg-neutral-700"
-        >
-          {loading && application.status !== "Accepted" ? "Updating..." : "Reject"}
-        </button>
+        {application.status === "Accepted" && (
+          <PayNowButton
+            taskId={taskId}
+            workerId={application.worker._id}
+            workerName={application.worker.name}
+            taskTitle={taskTitle}
+            amount={application.expectedPrice}
+            onSuccess={onPaymentSuccess}
+          />
+        )}
       </div>
     </article>
   );

@@ -1,89 +1,63 @@
 "use client";
 
 import { useState } from "react";
-
-import loadRazorpay from "@/utils/loadRazorpay";
-
-import {
-  createOrder,
-  verifyPayment,
-} from "@/services/payment.service";
+import { Lock, CreditCard } from "lucide-react";
+import DemoPaymentModal from "./DemoPaymentModal";
 
 interface Props {
   taskId: string;
-  workerId: string;
+  workerId?: string;
+  workerName?: string;
   taskTitle: string;
+  amount: number;
   onSuccess?: () => void;
+  className?: string;
+  variant?: "primary" | "secondary" | "pill";
 }
-    export default function PayNowButton({
-    taskId,
-    workerId,
-    taskTitle,
-    onSuccess,
-    }: Props) {
-  const [loading, setLoading] = useState(false);
 
-  const handlePayment = async () => {
-    try {
-      setLoading(true);
+export default function PayNowButton({
+  taskId,
+  workerId,
+  workerName,
+  taskTitle,
+  amount,
+  onSuccess,
+  className = "",
+  variant = "primary",
+}: Props) {
+  const [modalOpen, setModalOpen] = useState(false);
 
-      const loaded = await loadRazorpay();
-
-      if (!loaded) {
-        alert("Unable to load Razorpay.");
-        return;
-      }
-
-      const order = await createOrder(taskId, workerId);
-
-      const options = {
-        key: order.key,
-
-        amount: order.amount,
-
-        currency: order.currency,
-
-        name: "TaskHeroes",
-
-        description: taskTitle,
-
-        order_id: order.orderId,
-
-        handler: async (response: any) => {
-          await verifyPayment(response);
-
-          alert("Payment Successful");
-
-          onSuccess?.();
-        },
-
-        theme: {
-          color: "#2563eb",
-        },
-      };
-
-      const paymentObject = new window.Razorpay(options);
-
-      paymentObject.open();
-    } catch (err: any) {
-      console.error(err);
-
-      alert(
-        err.response?.data?.message ??
-          "Payment failed."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  const baseStyles =
+    variant === "pill"
+      ? "inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 transition"
+      : variant === "secondary"
+      ? "inline-flex items-center justify-center gap-2 rounded-2xl border border-neutral-300 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-900 transition hover:bg-neutral-100 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-800"
+      : "inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 dark:bg-emerald-500 dark:hover:bg-emerald-600";
 
   return (
-    <button
-      onClick={handlePayment}
-      disabled={loading}
-      className="bg-blue-600 text-white px-5 py-2 rounded-lg"
-    >
-      {loading ? "Processing..." : "Pay Now"}
-    </button>
+    <>
+      <button
+        type="button"
+        onClick={() => setModalOpen(true)}
+        className={`${baseStyles} ${className}`}
+      >
+        <Lock className="h-4 w-4" />
+        <span>Pay & Secure Escrow</span>
+      </button>
+
+      <DemoPaymentModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        taskId={taskId}
+        taskTitle={taskTitle}
+        workerId={workerId}
+        workerName={workerName}
+        amount={amount}
+        onSuccess={() => {
+          setModalOpen(false);
+          onSuccess?.();
+        }}
+      />
+    </>
   );
 }

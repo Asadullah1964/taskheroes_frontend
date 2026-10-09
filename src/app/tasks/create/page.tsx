@@ -3,6 +3,8 @@
 import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createTask } from "@/services/task";
+import LocationPicker from "@/components/location/LocationPicker";
+import { Coordinates } from "@/utils/location";
 
 const categories = [
   "Cleaning",
@@ -36,6 +38,9 @@ function CreateTaskForm() {
     location: "",
     deadline: "",
   });
+
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [city, setCity] = useState<string>("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -71,6 +76,8 @@ function CreateTaskForm() {
         ...formData,
         budget: Number(formData.budget),
         deadline: new Date(formData.deadline).toISOString(),
+        coordinates,
+        city,
       });
 
       setSuccess("Task created successfully.");
@@ -228,17 +235,17 @@ function CreateTaskForm() {
                     htmlFor="location"
                     className="mb-2 block text-sm font-medium text-neutral-700 dark:text-neutral-300"
                   >
-                    Location
+                    Task Location
                   </label>
-                  <input
-                    id="location"
-                    type="text"
-                    name="location"
+                  <LocationPicker
                     value={formData.location}
-                    onChange={handleChange}
-                    required
-                    placeholder="e.g. Andheri West, Mumbai"
-                    className="w-full rounded-2xl border border-neutral-200 bg-white px-4 py-3 text-sm outline-none transition placeholder:text-neutral-400 focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/10 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:placeholder:text-neutral-500 dark:focus:border-neutral-400 dark:focus:ring-white/10"
+                    onChange={(loc, coords, cty) => {
+                      setError("");
+                      setFormData((prev) => ({ ...prev, location: loc }));
+                      if (coords) setCoordinates(coords);
+                      if (cty) setCity(cty);
+                    }}
+                    placeholder="e.g. Bandra West, Mumbai"
                   />
                 </div>
 

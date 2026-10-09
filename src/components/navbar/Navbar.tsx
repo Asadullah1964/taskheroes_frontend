@@ -10,6 +10,7 @@ import {
   Menu,
   MessageSquare,
   Pencil,
+  Briefcase,
   User,
   X,
 } from "lucide-react";
@@ -38,15 +39,26 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
+  const isWorker = user?.role === "worker";
+
   const navLinks = [
     { label: "Home", href: "/" },
     { label: "Browse Tasks", href: "/tasks" },
+    ...(isWorker
+      ? [{ label: "My Applications", href: "/tasks/applied" }]
+      : [{ label: "My Tasks", href: "/tasks/my" }]),
     { label: "Dashboard", href: "/dashboard" },
   ];
 
   const profileLinks = [
     { label: "My Profile", href: "/profile", icon: User },
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    ...(isWorker
+      ? [{ label: "Applied Tasks", href: "/tasks/applied", icon: Briefcase }]
+      : [
+          { label: "My Tasks", href: "/tasks/my", icon: Briefcase },
+          { label: "Post a Task", href: "/tasks/create", icon: Pencil },
+        ]),
     { label: "Edit Profile", href: "/profile/edit", icon: Pencil },
   ];
 
@@ -229,9 +241,20 @@ export default function Navbar() {
               {profileOpen && (
                 <div className="absolute right-0 mt-3 w-64 overflow-hidden rounded-3xl border border-neutral-200 bg-white shadow-2xl dark:border-neutral-800 dark:bg-neutral-900">
                   <div className="border-b border-neutral-100 px-4 py-4 dark:border-neutral-800">
-                    <p className="truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                      {user.name || "User"}
-                    </p>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                        {user.name || "User"}
+                      </p>
+                      {user.role && (
+                        <span className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                          user.role === "worker"
+                            ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                            : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                        }`}>
+                          {user.role}
+                        </span>
+                      )}
+                    </div>
                     {user.email ? (
                       <p className="mt-1 truncate text-xs text-neutral-500 dark:text-neutral-400">
                         {user.email}
@@ -324,9 +347,20 @@ export default function Navbar() {
               )}
 
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100">
-                  {user.name || "User"}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+                    {user.name || "User"}
+                  </p>
+                  {user.role && (
+                    <span className={`inline-flex shrink-0 items-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                      user.role === "worker"
+                        ? "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300"
+                        : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                    }`}>
+                      {user.role}
+                    </span>
+                  )}
+                </div>
                 <p className="truncate text-xs text-neutral-500 dark:text-neutral-400">
                   {user.email || "Menu"}
                 </p>

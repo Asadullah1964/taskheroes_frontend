@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import LocationPicker from "@/components/location/LocationPicker";
 
 interface WorkerFormState {
   title: string;
@@ -257,14 +258,13 @@ export default function BecomeWorkerPage() {
                   description="Add your city, area, or service region."
                   error={validation.location}
                 >
-                  <input
-                    id="location"
-                    name="location"
-                    placeholder="Mumbai, Maharashtra"
+                  <LocationPicker
                     value={form.location}
-                    onChange={handleChange}
-                    className={inputClass(!!validation.location)}
-                    required
+                    onChange={(loc) => {
+                      setForm((prev) => ({ ...prev, location: loc }));
+                      if (error) setError("");
+                    }}
+                    placeholder="e.g. Bandra West, Mumbai"
                   />
                 </FormField>
 

@@ -52,12 +52,18 @@ export interface Task {
 
   applications: Application[];
 
-  // NEW
   assignedWorker?: {
     _id: string;
     name: string;
     profileImage?: string;
   };
+
+  paymentStatus?: "unpaid" | "in_escrow" | "released" | "refunded";
+  coordinates?: {
+    lat: number;
+    lng: number;
+  } | null;
+  city?: string;
 
   hasReviewed?: boolean;
   createdAt: string;

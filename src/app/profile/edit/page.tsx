@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
 import ProfileImageUploader from "@/components/profile/ProfileImageUploader";
+import LocationPicker from "@/components/location/LocationPicker";
 
 interface FormState {
   name: string;
@@ -244,13 +245,13 @@ export default function EditProfilePage() {
                   error={validation.location}
                   description="Your city or area helps improve trust and local matching."
                 >
-                  <input
-                    id="location"
-                    name="location"
+                  <LocationPicker
                     value={form.location}
-                    onChange={handleChange}
-                    placeholder="Enter your location"
-                    className={inputClass(!!validation.location)}
+                    onChange={(loc) => {
+                      setForm((prev) => ({ ...prev, location: loc }));
+                      if (error) setError("");
+                    }}
+                    placeholder="e.g. Indiranagar, Bengaluru"
                   />
                 </FormField>
               </div>
